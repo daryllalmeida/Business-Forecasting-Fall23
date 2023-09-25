@@ -1,0 +1,47 @@
+----
+title: "Knitting Example" 
+author: "Daryll Dalmeida"
+date: "2023-09-24"
+output: html_document
+----
+
+# Heading (one hash)
+# Heading 2 (two hashes)
+### Sub heading (three hashes)
+####### end
+
+# Ans 1: 
+
+columns <- c("Age","Gender","JobSatifaction","JobCharacteristics",
+             "YearsWorked","PromotionChances","DecisionMaking",
+             "BudgetaryDecisions","Proudness","AnotherJob","Relations")
+columns
+
+
+#Ans 2: 
+
+summary(Typical_Employee_Survey_Data)
+boxplot(Typical_Employee_Survey_Data$Age, min(x) : 20, max(x) : 64)
+
+#Ans 3:
+
+
+
+Typical_Employee_Survey_Data$Gender <- factor(Typical_Employee_Survey_Data$Gender)
+
+
+#Ans 4: Barplot
+
+
+# Promotion chances
+
+barplot(Typical_Employee_Survey_Data$...6, col = 'pink')
+
+
+#Ans 5 : Scatterplot using ggplot
+
+plot(Typical_Employee_Survey_Data$...8,Typical_Employee_Survey_Data$...7, main = "Scatter plot",
+     xlab = "BudgetaryDecisions", ylab = "DecisionMaking")
+
+
+
