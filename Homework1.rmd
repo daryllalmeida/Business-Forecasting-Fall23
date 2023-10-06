@@ -1,0 +1,98 @@
+---
+title: "Homework1"
+author: "Daryll Dalmeida"
+date: "10/05/2023"
+output:
+  html_document:
+  df_print: paged
+---
+
+
+#Importing a Data Frame
+
+```{r}
+library(readxl)
+Typical_Employee_Survey_Data <-read_excel("Typical_Employee_Survey_Data.xlsx",col_names = FALSE)
+```
+
+
+
+# Adding header Rows to every column
+
+```{r}
+colnames(Typical_Employee_Survey_Data) <- c("Age", "Gender", "Job_Satisfact", "Job_Char", "Work_Exp", "Promotion_Chance", "Decision_making", "Budgetary_decisions", "Proudness_level", "Other_jobs_denial", "Relations")
+head(Typical_Employee_Survey_Data)
+```
+
+
+
+# Summary
+
+```{r}
+sapply(Typical_Employee_Survey_Data,fivenum)
+boxplot(Typical_Employee_Survey_Data)
+```
+
+
+
+# Conversion to factors
+
+```{r}
+Typical_Employee_Survey_Data$Gender <- factor(Typical_Employee_Survey_Data$Gender, labels = c("Male","Female"))
+Typical_Employee_Survey_Data$Other_jobs_denial <- factor(Typical_Employee_Survey_Data$Other_jobs_denial, labels = c("Most Probably","Probably","Confused","Unlikely","Highly Unlikely"))
+Typical_Employee_Survey_Data$Budgetary_decisions <- factor(Typical_Employee_Survey_Data$Budgetary_decisions, labels = c("Yes","No"))
+head(Typical_Employee_Survey_Data)
+```
+
+
+# Scatter plots for displaying relationships
+
+```{r}
+
+plot(Typical_Employee_Survey_Data$Age,Typical_Employee_Survey_Data$Work_Exp,main = "Age vs Years of Experience",xlab = "Age", ylab = "Work_Exp",col = "pink", pch = 16)
+
+plot(Typical_Employee_Survey_Data$Job_Satisfact,Typical_Employee_Survey_Data$Job_Char,main = "Job Satisfaction vs Job Characteristics",xlab = "Job_Satisfact", ylab = "Job_Char",col = "red", pch = 12)
+
+plot(Typical_Employee_Survey_Data$Job_Satisfact,Typical_Employee_Survey_Data$Relations,main = "Job Satisfaction vs Job Relations",xlab = "Job_Satisfact", ylab = "Job Relation",col = "green", pch = 18)
+
+
+plot(Typical_Employee_Survey_Data$Relations,Typical_Employee_Survey_Data$Work_Exp,main = "Relations & Work Experience",xlab = "Relations", ylab = "Work_Experience",col = "red", pch = 16)
+```
+
+# Different plotting of visuals for each Column
+```{r}
+hist(Typical_Employee_Survey_Data$Age)
+
+Gender_count <- table(Typical_Employee_Survey_Data$Gender)
+pie(Gender_count,labels <- c("Male","Female"),col = c("pink","magenta"),main='Male vs Female')
+
+JobSatifact_count <- table(Typical_Employee_Survey_Data$Job_Satisfact)
+boxplot(JobSatifact_count, main = "Employee Satisfaction ratio",ylab="Satisfaction Scale",col = c("green") )
+
+JobChar_count <- table(Typical_Employee_Survey_Data$Job_Char)
+barplot(JobChar_count , main = "Employee Satisfaction ratio",col = c("red") )
+
+data <- rnorm(100)
+
+density_data <- density(Typical_Employee_Survey_Data$Work_Exp)
+plot(density_data, main = "Experience wise Density Plot", xlab = "Years of Experience", ylab = "Density")
+
+promotion_count <- table(Typical_Employee_Survey_Data$Promotion_Chance)
+barplot(promotion_count  , main = "Employee Satisfaction ratio",col = c("red"), horiz = TRUE)
+
+
+decision_making <- table(Typical_Employee_Survey_Data$Decision_making)
+barplot(decision_making , main = "Decision Making ratio",col = c("purple"), horiz = FALSE)
+
+Count_budgetary_decisions <- table(Typical_Employee_Survey_Data$Budgetary_decisions)
+pie(Count_budgetary_decisions , labels = c("Yes","No"), col = c("green","red"), main = "Budgetary Decisions graph")
+
+Count_proudness <- table(Typical_Employee_Survey_Data$Proudness_level)
+pie(Count_proudness  , labels = c("Very Proud","Proud","Average","Not Proud"), col = c("blue","pink","magenta","orange"), main = " Proudness ratio")
+
+DenialOf_other_job <- table(Typical_Employee_Survey_Data$Other_jobs_denial)
+barplot(DenialOf_other_job,main="Rejecting Other Jobs",col = c("blue"))
+
+Relationship <- table(Typical_Employee_Survey_Data$Relations)
+pie(Relationship, labels = c("Very Good","Good","Bad","Very Bad"), col = c("green","orange","pink","lightblue"), main = "Employee Relation ratio")
+```
