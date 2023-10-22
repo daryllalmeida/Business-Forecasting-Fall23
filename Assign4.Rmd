@@ -1,0 +1,91 @@
+---
+  title: "Assignment 4"
+author: "dd1163@scarlettmail.rutgers.edu"
+date: "10/18/2023"
+output: html_document
+---
+  
+  
+```{r}
+library(readxl)
+library(openxlsx)
+library(fpp)
+library(fpp2)
+library(TTR)
+library(forecast::meanf)
+gold_price <-read_excel("gold_price_data.xlsx")
+
+sapply(gold_price, class)
+
+attributes(gold_price)
+attributes(goldprice_ts)
+Acf(gold_price)
+
+#Converting the data to a time series object
+goldprice_ts <- ts(gold_price$Value,start = c(1970,1), end = c(2020, 3), frequency = 12)
+
+
+# Mean Forecast
+mean_forecast <- meanf(goldprice_ts ,h = 3)
+plot(mean_forecast)
+
+#Naive Forecast
+
+naive_forecast <- naive(goldprice_ts,3)
+plot(naive_forecast)
+
+# Random Walk
+
+rwf_forecast <- rwf(goldprice_ts,5)
+rwf_forecast <- rwf(goldprice_ts,5, drift=TRUE)
+plot(rwf_forecast)
+
+# Seasonal Naive
+snaive_forecast <- snaive(goldprice_ts,5)
+plot(snaive_forecast)
+
+# Moving Averages
+
+MA5_forecast <- ma(goldprice_ts,order=5)
+MA9_forecast <- ma(goldprice_ts,order=9)
+
+plot(mean_forecast)
+
+#Time series Plot & forecasts of models
+
+lines(naive_forecast$mean,col="pink")
+lines(rwf_forecast$mean,col="orange")
+lines(snaive_forecast$mean,col="purple")
+plot(MA5_forecast,col = "blue")
+plot(MA9_forecast,col = "magenta")
+
+ma_forecast <- ma(goldprice_ts, order = 10, h = 5)
+accuracy_movingavg <- accuracy(ma_forecast, goldprice_ts)
+
+
+#Decomposition
+ets_model <- ets(goldprice_ts)
+plot(ets_model)
+attributes(ets_model)
+ets_model$mse
+
+#Holts winter forecast
+
+HW_forecast <- HoltWinters(goldprice_ts)
+plot(HW_forecast)
+
+SSE_Simple <- HoltWinters(goldprice_ts,beta=FALSE,gamma=FALSE)
+attributes(SSE_Simple)
+plot(SSE_Simple)
+SSE_Simple$SSE
+head(SSE_Simple$fitted)
+
+
+#Comparision of forecasting models based on accuracy measures
+
+accuracy(naive_forecast)
+accuracy(rwf_forecast)
+accuracy(ets_forecast)
+
+
+```
