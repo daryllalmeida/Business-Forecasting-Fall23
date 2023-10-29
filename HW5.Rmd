@@ -1,0 +1,41 @@
+---
+title: "Lecture 5 Homework"
+author: "dd1163@scarletmail.rutgers.edu"
+date: "10/28/2023"
+output: html_document
+---
+  
+```{r}
+library(fpp)
+library(fpp2)
+library(readxl)
+GoldPrice <- read_excel("/Users/darylldalmeida/Documents/Business Forecasting/Forecasting Data/gold_price_data.xlsx")
+View(GoldPrice)
+```
+
+```{r}
+gold_price_ts <- ts(GoldPrice$Value, frequency = 12)
+plot(gold_price_ts)
+stl_decomp <- stl(gold_price_ts,s.window ="periodic")
+plot(stl_decomp)
+attributes(stl_decomp)
+```
+
+```{r}
+#Seasonal adjustment
+
+seasadj(stl_decomp)
+plot(gold_price_ts)
+lines(seasadj(stl_decomp), col = "green")
+
+#Default period forecast
+f_stl <- forecast(stl_decomp)
+f_stl
+plot(f_stl)
+
+
+decomp_gold <- decompose(gold_price_ts)
+
+attributes(decomp_gold)
+seasadj(decomp_gold)
+```
