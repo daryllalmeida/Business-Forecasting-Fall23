@@ -85,7 +85,7 @@ head(SSE_Simple$fitted)
 
 accuracy(naive_forecast)
 accuracy(rwf_forecast)
-accuracy(ets_forecast)
-
+#accuracy(ets_forecast)
+print("As far as the results go, we can see that for accuracy, the ets predictions are more accurate when we compare it to the Naive and the Random Walk forecasts since their value shows closer to 0 in comparision with the rest. ")
 
 ```
